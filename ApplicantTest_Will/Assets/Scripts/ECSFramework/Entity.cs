@@ -2,8 +2,20 @@
 
 namespace ECSFramework
 {
+    /// <summary>
+    /// Normally I would use a TagComponent just to identity different entity types,
+    /// In this case, I'll just use an enum to identify Entity types
+    /// </summary>
+    public enum EEntityType
+    {
+        None,
+        Ball,
+        Player
+    }
+
     public class Entity : IEntity
     {
+        public EEntityType entityType = EEntityType.None;
         public int uniqueID;
         private Dictionary<EComponentType, IComponent> componentsList;
 

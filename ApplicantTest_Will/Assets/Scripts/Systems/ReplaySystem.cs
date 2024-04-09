@@ -24,6 +24,8 @@ public class ReplaySystem : ISystem
             Id = person.TeamSide * 100 + person.Id;
             GameWorld.Instance.CreatePlayer(person, Id);
         }
+
+        GameWorld.Instance.CreateBall(PropertyManager.Instance.FrameData[0].Ball);
     }
 
     public void Tick(float deltaTime)
@@ -65,12 +67,16 @@ public class ReplaySystem : ISystem
     /// <param name="dataIndex"></param>
     private void FlushComponentsData(int dataIndex)
     {
-        Entity currentEntity;
-        var currentFrameData = PropertyManager.Instance.FrameData[dataIndex];
-        var nextFrameData = dataIndex == PropertyManager.Instance.FrameData.Count - 1 ? currentFrameData : PropertyManager.Instance.FrameData[dataIndex + 1];
         int checkID;
         Vector3 nextPosition;
         Vector3 newPosition;
+
+        Entity currentEntity;
+
+        var currentFrameData = PropertyManager.Instance.FrameData[dataIndex];
+        var nextFrameData = dataIndex == PropertyManager.Instance.FrameData.Count - 1 ? currentFrameData : PropertyManager.Instance.FrameData[dataIndex + 1];
+
+        //Persons Refresh
         foreach (var personData in currentFrameData.Persons)
         {
             checkID = personData.TeamSide * 100 + personData.Id;
@@ -88,7 +94,7 @@ public class ReplaySystem : ISystem
                 continue;
             }
 
-            if (currentEntity.GetComponent<Components.PositionComponent>(EComponentType.PositionComponent, out var positionComponent))
+            if (currentEntity.GetComponent<Components.PositionComponent, Components.MoveComponent>(EComponentType.PositionComponent, EComponentType.MoveComponent, out var positionComponent, out var moveComponent))
             {
                 newPosition = new Vector3(personData.Position[0], personData.Position[1], personData.Position[2]);
                 if (positionComponent.position != newPosition)
@@ -97,12 +103,31 @@ public class ReplaySystem : ISystem
                     positionComponent.isDirty = true;
                 }
 
-                if (currentEntity.GetComponent<Components.MoveComponent>(EComponentType.MoveComponent, out var moveComponent))
-                {
-                    moveComponent.speed = (nextPosition - positionComponent.position).normalized * personData.Speed;
-                    Debug.LogFormat("frame:{3}, ID:{0},speed:{1}, position:{2}", checkID, moveComponent.speed, positionComponent.position, dataIndex);
-                }
+                moveComponent.speed = (nextPosition - positionComponent.position).normalized * personData.Speed;
+                Debug.LogFormat("frame:{3}, ID:{0},speed:{1}, position:{2}", checkID, moveComponent.speed, positionComponent.position, dataIndex);
             }
+        }
+
+        //Ball Refresh
+        currentEntity = GameWorld.Instance.GetFirstEntityByType(EEntityType.Ball);
+        if (currentEntity == null) return;
+
+        nextPosition = new Vector3(nextFrameData.Ball.Position[0], nextFrameData.Ball.Position[1], nextFrameData.Ball.Position[2]);
+        if (currentEntity.GetComponent<Components.PositionComponent, Components.MoveComponent>(EComponentType.PositionComponent, EComponentType.MoveComponent, out var ballPositionComp, out var ballMoveComp))
+        {
+            newPosition = new Vector3(currentFrameData.Ball.Position[0], currentFrameData.Ball.Position[1], currentFrameData.Ball.Position[2]);
+            if (ballPositionComp.position != newPosition)
+            {
+                ballPositionComp.position = newPosition;
+                ballPositionComp.isDirty = true;
+            }
+
+            ballMoveComp.speed = (nextPosition - ballPositionComp.position).normalized * currentFrameData.Ball.Speed;
+        }
+
+        if (currentEntity.GetComponent<Components.TeamInfoComponent>(EComponentType.TeamInfoComponent, out var teamInfoComponent))
+        {
+            teamInfoComponent.teamSide = currentFrameData.Ball.TrackableBallContext.Possession;
         }
     }
 }

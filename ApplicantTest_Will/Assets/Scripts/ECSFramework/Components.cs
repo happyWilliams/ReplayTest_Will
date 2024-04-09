@@ -47,6 +47,7 @@ namespace ECSFramework
         public class TransformComponent : IComponent
         {
             public Transform localTransform;
+            public MeshRenderer meshRenderer;
 
             public TransformComponent()
             {
@@ -55,6 +56,7 @@ namespace ECSFramework
             public TransformComponent(params object[] args)
             {
                 localTransform = (Transform)args[0];
+                meshRenderer = localTransform.GetComponent<MeshRenderer>();
             }
 
             public void Dispose()

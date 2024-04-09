@@ -23,7 +23,6 @@ namespace DataAnalysis
     public class Person
     {
         public int Id;
-        public long Timestamp;
         public int[] Position;
         public float Speed;
         public int TeamSide;
@@ -34,10 +33,17 @@ namespace DataAnalysis
     public class Ball
     {
         public int Id;
-        public long Timestamp;
         public int[] Position;
         public float Speed;
         public int TeamSide;
         public int JerseyNumber;
+        public TrackableBallContextData TrackableBallContext;
+    }
+
+    [System.Serializable]
+    public class TrackableBallContextData
+    {
+        public int BallState;
+        public int Possession;
     }
 }

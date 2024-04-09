@@ -78,6 +78,11 @@ public class GameWorld : MonoBehaviour
         return entities.Find(entity => entity.uniqueID == Id);
     }
 
+    public Entity GetFirstEntityByType(EEntityType type)
+    {
+        return entities.Find(entity => entity.entityType == type);
+    }
+
     public List<T> GetComponents<T>(EComponentType componentType) where T : IComponent
     {
         var componentList = new List<T>();
@@ -99,12 +104,26 @@ public class GameWorld : MonoBehaviour
 
     public void CreatePlayer(Person personData, int Id = -1)
     {
-        Vector3 bornPosition = new Vector3(personData.Position[0], personData.Position[1], personData.Position[2]);
+        var bornPosition = new Vector3(personData.Position[0], personData.Position[1], personData.Position[2]);
+
         var player = CreateEntity(Id);
+        player.entityType = EEntityType.Player;
+
         player.AddComponent(EComponentType.TeamInfoComponent, personData.TeamSide, personData.JerseyNumber);
         player.AddComponent(EComponentType.MoveComponent, Vector3.zero);
         player.AddComponent(EComponentType.TransformComponent, Instantiate(playerPrefab, bornPosition, Quaternion.identity).transform);
         player.AddComponent(EComponentType.PositionComponent, bornPosition);
-        player.AddComponent(EComponentType.TeamInfoComponent, personData.TeamSide, personData.JerseyNumber);
+    }
+
+    public void CreateBall(Ball ballData)
+    {
+        var bornPosition = new Vector3(ballData.Position[0], ballData.Position[1], ballData.Position[2]);
+
+        var ball = CreateEntity();
+        ball.entityType = EEntityType.Ball;
+        ball.AddComponent(EComponentType.TeamInfoComponent, ballData.TeamSide, ballData.JerseyNumber);
+        ball.AddComponent(EComponentType.MoveComponent, Vector3.zero);
+        ball.AddComponent(EComponentType.TransformComponent, Instantiate(playerPrefab, bornPosition, Quaternion.identity).transform);
+        ball.AddComponent(EComponentType.PositionComponent, bornPosition);
     }
 }
