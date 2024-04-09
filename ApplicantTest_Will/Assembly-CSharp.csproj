@@ -48,10 +48,13 @@
     <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\Systems\ReplaySystem.cs" />
     <Compile Include="Assets\Scripts\Systems\RenderSyncSystem.cs" />
+    <Compile Include="Assets\Scripts\DataAnalysis\Utilities.cs" />
     <Compile Include="Assets\Scripts\ECSFramework\ECSCore.cs" />
     <Compile Include="Assets\Scripts\ECSFramework\Entity.cs" />
     <Compile Include="Assets\Scripts\ECSFramework\Utilities.cs" />
+    <Compile Include="Assets\Scripts\DataAnalysis\GameData.cs" />
     <Compile Include="Assets\Scripts\Systems\MoveSystem.cs" />
+    <Compile Include="Assets\Scripts\DataAnalysis\PropertyManager.cs" />
     <Compile Include="Assets\Scripts\ECSFramework\Components.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.19f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

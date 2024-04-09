@@ -1,12 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DataAnalysis;
 using UnityEngine;
 using ECSFramework;
 using Systems;
+using UnityEngine.Playables;
+using Utilities = ECSFramework.Utilities;
 
 public class GameController : MonoBehaviour
 {
+    private static GameController instance;
+    public static GameController Instance => instance;
+
     //In this case, We want to use this worldEntity to control the pace of the game
     //this worldEntity contains the tickStatus of the whole game
     private Entity worldEntity;
@@ -15,7 +21,9 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
-        worldEntity = new Entity(0);
+        instance = this;
+
+        worldEntity = new Entity(Utilities.GetUniqueId());
         worldEntity.AddComponent(EComponentType.WorldComponent);
         entities.Add(worldEntity);
         InitializeSystems();

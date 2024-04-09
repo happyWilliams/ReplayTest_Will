@@ -26,5 +26,12 @@ namespace ECSFramework
                 throw new ArgumentException("No associated struct found for the enum value.");
             }
         }
+        
+        private static int counter = 0;
+
+        public static int GetUniqueId()
+        {
+            return ++counter;
+        }
     }
 }
