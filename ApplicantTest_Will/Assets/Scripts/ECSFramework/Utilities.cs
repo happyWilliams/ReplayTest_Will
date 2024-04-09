@@ -8,7 +8,6 @@ namespace ECSFramework
     {
         Auto,
         Pause,
-        Stop
     }
 
     public static class Utilities

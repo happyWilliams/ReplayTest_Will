@@ -28,10 +28,22 @@ public class ReplaySystem : ISystem
         GameWorld.Instance.CreateBall(PropertyManager.Instance.FrameData[0].Ball);
     }
 
+    public void ForceRefresh(float deltaTime)
+    {
+        Tick(deltaTime);
+    }
+
     public void Tick(float deltaTime)
     {
         if (!GameWorld.Instance.GetWorldEntity().GetComponent<Components.WorldComponent>(EComponentType.WorldComponent, out var worldComp))
             return;
+
+        if (worldComp.forceRefresh)
+        {
+            RefreshData(worldComp);
+            FlushComponentsData(worldComp.currentFrame);
+            return;
+        }
 
         worldComp.gapTimeCount += deltaTime;
         if (worldComp.gapTimeCount >= worldComp.timeGap)

@@ -35,6 +35,11 @@ namespace Systems
             }
         }
 
+        public void ForceRefresh(float deltaTime)
+        {
+            RefreshTransform(deltaTime);
+        }
+
         public void RefreshTransform(float deltaTime)
         {
             foreach (var entity in GameWorld.Instance.GetAllEntities())

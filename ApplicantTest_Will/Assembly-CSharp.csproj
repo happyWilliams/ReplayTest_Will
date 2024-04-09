@@ -48,6 +48,7 @@
     <Compile Include="Assets\Scripts\Systems\ReplaySystem.cs" />
     <Compile Include="Assets\Scripts\Systems\RenderSyncSystem.cs" />
     <Compile Include="Assets\Scripts\DataAnalysis\Utilities.cs" />
+    <Compile Include="Assets\Scripts\Systems\InputSystem.cs" />
     <Compile Include="Assets\Scripts\GameWorld.cs" />
     <Compile Include="Assets\Scripts\ECSFramework\ECSCore.cs" />
     <Compile Include="Assets\Scripts\ECSFramework\Entity.cs" />

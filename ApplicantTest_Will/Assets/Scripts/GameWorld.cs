@@ -14,6 +14,7 @@ public class GameWorld : MonoBehaviour
     //this worldEntity contains the tickStatus of the whole game
     private Entity worldEntity;
     private List<Entity> entities = new List<Entity>();
+    private List<ISystem> overrideSystems = new List<ISystem>();
     private List<ISystem> systems = new List<ISystem>();
 
     public GameObject playerPrefab;
@@ -32,8 +33,23 @@ public class GameWorld : MonoBehaviour
 
     void Update()
     {
+        foreach (var system in overrideSystems)
+        {
+            system.Tick(Time.deltaTime);
+        }
+
         if (worldEntity.GetComponent<Components.WorldComponent>(EComponentType.WorldComponent, out var worldComponent))
         {
+            if (worldComponent.forceRefresh)
+            {
+                foreach (var system in systems)
+                {
+                    system.ForceRefresh(Time.deltaTime);
+                }
+
+                worldComponent.forceRefresh = false;
+            }
+
             if (worldComponent.tickStatus != ETickStatus.Auto)
             {
                 return;
@@ -51,6 +67,8 @@ public class GameWorld : MonoBehaviour
     /// </summary>
     private void InitializeSystems()
     {
+        overrideSystems.Add(new InputSystem());
+
         systems.Add(new ReplaySystem());
         systems.Add(new MoveSystem());
         systems.Add(new RenderSyncSystem());

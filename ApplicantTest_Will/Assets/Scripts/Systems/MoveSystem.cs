@@ -14,6 +14,11 @@ namespace Systems
         {
         }
 
+        public void ForceRefresh(float deltaTime)
+        {
+            Tick(deltaTime);
+        }
+
         public void RefreshPosition(float deltaTime)
         {
             var offset = Vector3.zero;
