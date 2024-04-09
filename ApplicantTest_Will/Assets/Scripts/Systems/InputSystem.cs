@@ -15,7 +15,7 @@ namespace Systems
         {
         }
 
-        public void ForceRefresh(float deltaTime)
+        public void ForceRefresh(float deltaTime, bool isForward)
         {
         }
 
@@ -40,12 +40,14 @@ namespace Systems
             {
                 worldComponent.currentFrame = Mathf.Clamp(worldComponent.currentFrame - 1, 0, worldComponent.currentFrame);
                 worldComponent.forceRefresh = true;
+                worldComponent.isForward = false;
             }
 
             if (Input.GetKey(KeyCode.RightArrow))
             {
                 worldComponent.currentFrame = Mathf.Clamp(worldComponent.currentFrame + 1, worldComponent.currentFrame, PropertyManager.Instance.FrameData.Count - 1);
                 worldComponent.forceRefresh = true;
+                worldComponent.isForward = true;
             }
         }
     }

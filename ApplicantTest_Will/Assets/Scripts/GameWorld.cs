@@ -18,7 +18,7 @@ public class GameWorld : MonoBehaviour
     private List<ISystem> systems = new List<ISystem>();
 
     public GameObject playerPrefab;
-    public Transform CanvasGroup;
+    public Transform instantiatedParent;
 
     private void Awake()
     {
@@ -44,7 +44,7 @@ public class GameWorld : MonoBehaviour
             {
                 foreach (var system in systems)
                 {
-                    system.ForceRefresh(Time.deltaTime);
+                    system.ForceRefresh(Time.deltaTime, worldComponent.isForward);
                 }
 
                 worldComponent.forceRefresh = false;
@@ -129,7 +129,7 @@ public class GameWorld : MonoBehaviour
 
         player.AddComponent(EComponentType.TeamInfoComponent, personData.TeamSide, personData.JerseyNumber);
         player.AddComponent(EComponentType.MoveComponent, Vector3.zero);
-        player.AddComponent(EComponentType.TransformComponent, Instantiate(playerPrefab, bornPosition, Quaternion.identity).transform);
+        player.AddComponent(EComponentType.TransformComponent, Instantiate(playerPrefab, bornPosition, Quaternion.identity, instantiatedParent).transform);
         player.AddComponent(EComponentType.PositionComponent, bornPosition);
     }
 
@@ -141,7 +141,7 @@ public class GameWorld : MonoBehaviour
         ball.entityType = EEntityType.Ball;
         ball.AddComponent(EComponentType.TeamInfoComponent, ballData.TeamSide, ballData.JerseyNumber);
         ball.AddComponent(EComponentType.MoveComponent, Vector3.zero);
-        ball.AddComponent(EComponentType.TransformComponent, Instantiate(playerPrefab, bornPosition, Quaternion.identity).transform);
+        ball.AddComponent(EComponentType.TransformComponent, Instantiate(playerPrefab, bornPosition, Quaternion.identity, instantiatedParent).transform);
         ball.AddComponent(EComponentType.PositionComponent, bornPosition);
     }
 }

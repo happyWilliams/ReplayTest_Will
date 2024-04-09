@@ -32,23 +32,33 @@ namespace Systems
                 //Special Initialize case for Ball
                 if (entity.entityType != EEntityType.Ball) continue;
                 transformComp.localTransform.localScale = 1.5f * Vector3.one;
+
+                RefreshTransform(Time.deltaTime, false);
             }
         }
 
-        public void ForceRefresh(float deltaTime)
+        public void ForceRefresh(float deltaTime, bool isForward)
         {
-            RefreshTransform(deltaTime);
+            RefreshTransform(deltaTime, isForward);
         }
 
-        public void RefreshTransform(float deltaTime)
+        public void RefreshTransform(float deltaTime, bool useLerp = true)
         {
+            if (!GameWorld.Instance.GetWorldEntity().GetComponent<Components.WorldComponent>(EComponentType.WorldComponent, out var worldComp)) return;
+
+            var lerpParam = 1f;
+            if (worldComp.timeGap != 0)
+            {
+                lerpParam = deltaTime / worldComp.timeGap;
+            }
+
             foreach (var entity in GameWorld.Instance.GetAllEntities())
             {
                 if (!entity.GetComponent<Components.TransformComponent, Components.PositionComponent>(EComponentType.TransformComponent, EComponentType.PositionComponent, out var transformComp, out var positionComp)) continue;
                 if (!positionComp.isDirty) continue;
                 positionComp.isDirty = false;
                 if (transformComp.localTransform == null) continue;
-                transformComp.localTransform.position = Vector3.Lerp(transformComp.localTransform.position, positionComp.position, deltaTime);
+                transformComp.localTransform.position = useLerp ? Vector3.Lerp(transformComp.localTransform.position, positionComp.position, lerpParam) : positionComp.position;
 
                 if (entity.entityType != EEntityType.Ball) continue;
                 if (!entity.GetComponent<Components.TeamInfoComponent>(EComponentType.TeamInfoComponent, out var teamInfoComponent)) continue;

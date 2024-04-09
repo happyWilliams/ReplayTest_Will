@@ -64,6 +64,6 @@ namespace ECSFramework
     {
         public void Tick(float deltaTime);
         public void Initialize();
-        public void ForceRefresh(float deltaTime);
+        public void ForceRefresh(float deltaTime, bool isForward);
     }
 }

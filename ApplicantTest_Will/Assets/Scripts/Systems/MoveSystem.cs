@@ -14,24 +14,23 @@ namespace Systems
         {
         }
 
-        public void ForceRefresh(float deltaTime)
+        public void ForceRefresh(float deltaTime, bool isForward)
         {
-            Tick(deltaTime);
+            // RefreshPosition(deltaTime);
         }
 
         public void RefreshPosition(float deltaTime)
         {
-            var offset = Vector3.zero;
+            Vector3 offset;
             foreach (var entity in GameWorld.Instance.GetAllEntities())
             {
-                if (entity.GetComponent<Components.MoveComponent, Components.PositionComponent>(EComponentType.MoveComponent, EComponentType.PositionComponent, out var moveComp, out var positionComp))
-                {
-                    offset = deltaTime * moveComp.speed;
-                    if (offset == Vector3.zero) continue;
-                    positionComp.position += offset;
-                    positionComp.position.y = 0;
-                    positionComp.isDirty = true;
-                }
+                if (!entity.GetComponent<Components.MoveComponent, Components.PositionComponent>(EComponentType.MoveComponent, EComponentType.PositionComponent, out var moveComp, out var positionComp)) continue;
+
+                offset = deltaTime * moveComp.speed;
+                if (offset == Vector3.zero) continue;
+                positionComp.position += offset;
+                positionComp.position.y = 0;
+                positionComp.isDirty = true;
             }
         }
     }

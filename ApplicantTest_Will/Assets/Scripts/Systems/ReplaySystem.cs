@@ -28,22 +28,18 @@ public class ReplaySystem : ISystem
         GameWorld.Instance.CreateBall(PropertyManager.Instance.FrameData[0].Ball);
     }
 
-    public void ForceRefresh(float deltaTime)
+    public void ForceRefresh(float deltaTime, bool isForward)
     {
-        Tick(deltaTime);
+        if (!GameWorld.Instance.GetWorldEntity().GetComponent<Components.WorldComponent>(EComponentType.WorldComponent, out var worldComp))
+            return;
+
+        FlushComponentsData(worldComp.currentFrame);
     }
 
     public void Tick(float deltaTime)
     {
         if (!GameWorld.Instance.GetWorldEntity().GetComponent<Components.WorldComponent>(EComponentType.WorldComponent, out var worldComp))
             return;
-
-        if (worldComp.forceRefresh)
-        {
-            RefreshData(worldComp);
-            FlushComponentsData(worldComp.currentFrame);
-            return;
-        }
 
         worldComp.gapTimeCount += deltaTime;
         if (worldComp.gapTimeCount >= worldComp.timeGap)
@@ -77,7 +73,7 @@ public class ReplaySystem : ISystem
     /// In this function, all data in positionComponents and moveComponents will be refreshed
     /// </summary>
     /// <param name="dataIndex"></param>
-    private void FlushComponentsData(int dataIndex)
+    private void FlushComponentsData(int dataIndex, bool isForward = true)
     {
         int checkID;
         Vector3 nextPosition;

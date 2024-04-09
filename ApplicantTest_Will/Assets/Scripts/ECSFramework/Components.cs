@@ -92,6 +92,7 @@ namespace ECSFramework
             public float gapTimeCount;
 
             public bool forceRefresh = false;
+            public bool isForward = true;
 
             public WorldComponent()
             {
