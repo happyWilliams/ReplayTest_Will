@@ -24,12 +24,13 @@ namespace DataAnalysis
             }
         }
 
+        //Stores the whole data at initialization stage
         private List<FrameDatum> frameData;
+        public List<FrameDatum> FrameData => frameData;
 
         public void InitializeData()
         {
             frameData = DataUtilities.ReadIdfFileByLines<FrameDatum>("Assets/DataAssets/Applicant-test.idf");
-            
         }
     }
 }

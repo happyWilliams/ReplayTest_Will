@@ -45,10 +45,10 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.19f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\Systems\ReplaySystem.cs" />
     <Compile Include="Assets\Scripts\Systems\RenderSyncSystem.cs" />
     <Compile Include="Assets\Scripts\DataAnalysis\Utilities.cs" />
+    <Compile Include="Assets\Scripts\GameWorld.cs" />
     <Compile Include="Assets\Scripts\ECSFramework\ECSCore.cs" />
     <Compile Include="Assets\Scripts\ECSFramework\Entity.cs" />
     <Compile Include="Assets\Scripts\ECSFramework\Utilities.cs" />

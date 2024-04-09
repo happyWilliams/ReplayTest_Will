@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace ECSFramework
 {
-    public struct Entity : IEntity
+    public class Entity : IEntity
     {
         public int uniqueID;
         private Dictionary<EComponentType, IComponent> componentsList;
@@ -19,6 +18,12 @@ namespace ECSFramework
             return componentsList.TryAdd(addType, (IComponent)Utilities.CreateStructFromEnumValue(addType));
         }
 
+
+        public bool AddComponent(EComponentType addType, params object[] args)
+        {
+            return componentsList.TryAdd(addType, (IComponent)Utilities.CreateStructFromEnumValue(addType, args));
+        }
+
         public bool GetComponent<T>(EComponentType checkType, out T componentGet) where T : IComponent
         {
             if (componentsList.TryGetValue(checkType, out var component))
@@ -28,6 +33,20 @@ namespace ECSFramework
             }
 
             componentGet = default;
+            return false;
+        }
+
+        public bool GetComponent<T1, T2>(EComponentType typeA, EComponentType typeB, out T1 componentA, out T2 componentB) where T1 : IComponent where T2 : IComponent
+        {
+            if (componentsList.TryGetValue(typeA, out var compA) && componentsList.TryGetValue(typeB, out var compB))
+            {
+                componentA = (T1)compA;
+                componentB = (T2)compB;
+                return true;
+            }
+
+            componentA = default;
+            componentB = default;
             return false;
         }
 

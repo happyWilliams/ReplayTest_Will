@@ -14,7 +14,7 @@ namespace DataAnalysis
     public class FrameDatum
     {
         public int FrameCount;
-        public double TimestampUTC;
+        public long TimestampUTC;
         public Person[] Persons;
         public Ball Ball;
     }
@@ -23,8 +23,9 @@ namespace DataAnalysis
     public class Person
     {
         public int Id;
-        public float Timestamp;
-        public Vector3 Position;
+        public long Timestamp;
+        public int[] Position;
+        public float Speed;
         public int TeamSide;
         public int JerseyNumber;
     }
@@ -33,9 +34,9 @@ namespace DataAnalysis
     public class Ball
     {
         public int Id;
-        public double Timestamp;
-        public Vector3 Position;
-        public double Speed;
+        public long Timestamp;
+        public int[] Position;
+        public float Speed;
         public int TeamSide;
         public int JerseyNumber;
     }

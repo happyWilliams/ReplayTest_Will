@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.SqlTypes;
 using System.Reflection;
 using UnityEngine;
 
@@ -61,7 +62,7 @@ namespace ECSFramework
 
     public interface ISystem
     {
-        public void Tick();
+        public void Tick(float deltaTime);
         public void Initialize();
     }
 }
