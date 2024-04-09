@@ -19,19 +19,22 @@ namespace ECSFramework
         }
     }
 
-    public enum ComponentType
+    public enum EComponentType
     {
         [AssociatedStruct(typeof(Components.MoveComponent))]
-        EMoveComponent,
+        MoveComponent,
 
         [AssociatedStruct(typeof(Components.PositionComponent))]
-        EPositionComponent,
+        PositionComponent,
 
         [AssociatedStruct(typeof(Components.TeamInfoComponent))]
-        ETeamInfoComponent,
+        TeamInfoComponent,
 
         [AssociatedStruct(typeof(Components.TransformComponent))]
-        ETransformComponent,
+        TransformComponent,
+
+        [AssociatedStruct(typeof(Components.WorldComponent))]
+        WorldComponent,
     }
 
     /// <summary>
@@ -49,9 +52,9 @@ namespace ECSFramework
     /// </summary>
     public interface IEntity
     {
-        public bool AddComponent(ComponentType addType);
-        public bool GetComponent(ComponentType checkType, out IComponent componentGet);
-        public bool HasComponent(ComponentType checkType);
+        public bool AddComponent(EComponentType addType);
+        public bool GetComponent<T>(EComponentType checkType, out T componentGet) where T : IComponent;
+        public bool HasComponent(EComponentType checkType);
         public void Destructor();
         public void Initialize();
     }

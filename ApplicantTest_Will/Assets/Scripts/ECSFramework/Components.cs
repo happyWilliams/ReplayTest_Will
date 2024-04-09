@@ -41,5 +41,15 @@ namespace ECSFramework
             {
             }
         }
+
+        public struct WorldComponent : IComponent
+        {
+            public ETickStatus tickStatus;
+            public int currentFrame;
+
+            public void Dispose()
+            {
+            }
+        }
     }
 }

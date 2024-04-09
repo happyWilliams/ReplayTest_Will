@@ -3,11 +3,18 @@ using System.Reflection;
 
 namespace ECSFramework
 {
+    public enum ETickStatus
+    {
+        Auto,
+        Pause,
+        Stop
+    }
+
     public static class Utilities
     {
-        public static object CreateStructFromEnumValue(ComponentType enumValue)
+        public static object CreateStructFromEnumValue(EComponentType enumValue)
         {
-            FieldInfo fieldInfo = typeof(ComponentType).GetField(enumValue.ToString());
+            FieldInfo fieldInfo = typeof(EComponentType).GetField(enumValue.ToString());
             AssociatedStructAttribute attribute = (AssociatedStructAttribute)Attribute.GetCustomAttribute(fieldInfo, typeof(AssociatedStructAttribute));
             if (attribute != null)
             {
