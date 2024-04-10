@@ -112,7 +112,6 @@ public class ReplaySystem : ISystem
                 }
 
                 moveComponent.speed = (nextPosition - positionComponent.position).normalized * personData.Speed;
-                Debug.LogFormat("frame:{3}, ID:{0},speed:{1}, position:{2}", checkID, moveComponent.speed, positionComponent.position, dataIndex);
             }
         }
 

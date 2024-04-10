@@ -34,10 +34,10 @@ namespace Systems
                 };
             }
 
-            if (worldComponent.tickStatus != ETickStatus.Pause) return;
-
             if (Input.GetKey(KeyCode.LeftArrow))
             {
+                worldComponent.tickStatus = ETickStatus.Pause;
+
                 worldComponent.currentFrame = Mathf.Clamp(worldComponent.currentFrame - 1, 0, worldComponent.currentFrame);
                 worldComponent.forceRefresh = true;
                 worldComponent.isForward = false;
@@ -45,6 +45,8 @@ namespace Systems
 
             if (Input.GetKey(KeyCode.RightArrow))
             {
+                worldComponent.tickStatus = ETickStatus.Pause;
+
                 worldComponent.currentFrame = Mathf.Clamp(worldComponent.currentFrame + 1, worldComponent.currentFrame, PropertyManager.Instance.FrameData.Count - 1);
                 worldComponent.forceRefresh = true;
                 worldComponent.isForward = true;
